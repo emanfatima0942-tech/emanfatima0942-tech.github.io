@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eman Fatima — Data, Reporting & Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --paper-2:#EFE9DB;
+    --ink:#14233B;
+    --ink-soft:#42506A;
+    --line:#D8CFBC;
+    --amber:#B6822E;
+    --amber-soft:#E7C77A;
+    --green:#3C6E51;
+    --red:#A8442F;
+    --card:#FBF8F1;
+    --shadow:0 1px 0 rgba(20,35,59,.04), 0 18px 40px -24px rgba(20,35,59,.35);
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --sans:"Hanken Grotesk",system-ui,sans-serif;
+    --serif:"Fraunces",Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+    background-size:26px 26px;
+  }
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* nav */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(8px);
+    background:rgba(246,242,233,.82);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.2px}
+  .brand b{color:var(--amber)}
+  .navlinks{display:flex;gap:26px}
+  .navlinks a{font-size:13px;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);transition:color .2s}
+  .navlinks a:hover{color:var(--amber)}
+  @media(max-width:680px){.navlinks{display:none}}
+
+  /* hero */
+  header{padding:84px 0 64px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:22px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(46px,8vw,84px);line-height:.98;letter-spacing:-.02em}
+  h1 .u{position:relative;white-space:nowrap}
+  h1 .u::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.12em;background:var(--amber-soft);z-index:-1}
+  .role{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(20px,3vw,27px);color:var(--ink-soft);margin-top:18px}
+  .lede{max-width:620px;font-size:17px;color:var(--ink-soft);margin-top:22px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:30px;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+  .badge.live{border-color:var(--amber-soft);background:#FCF4E1}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(60,110,81,.5);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(60,110,81,.45)}70%{box-shadow:0 0 0 7px rgba(60,110,81,0)}100%{box-shadow:0 0 0 0 rgba(60,110,81,0)}}
+  .cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .btn{font-family:var(--sans);font-weight:600;font-size:14px;text-decoration:none;padding:12px 20px;border-radius:10px;border:1px solid var(--ink);transition:transform .15s, box-shadow .2s}
+  .btn.primary{background:var(--ink);color:var(--paper)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+
+  /* sections */
+  section{padding:60px 0;border-top:1px solid var(--line)}
+  .label{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:12px;margin-bottom:30px}
+  .label::before{content:attr(data-n);color:var(--ink-soft);opacity:.6}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,40px);letter-spacing:-.01em;line-height:1.08;margin-bottom:8px}
+  .section-intro{max-width:640px;color:var(--ink-soft);margin-bottom:34px;font-size:16px}
+
+  /* skills */
+  .skillgrid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:680px){.skillgrid{grid-template-columns:1fr}}
+  .skillgrid h3{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+  .tags{display:flex;flex-wrap:wrap;gap:9px}
+  .tag{font-size:13.5px;padding:7px 13px;border-radius:8px;background:var(--card);border:1px solid var(--line)}
+  .tag.key{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* experience */
+  .xp{display:grid;grid-template-columns:150px 1fr;gap:26px;padding:26px 0;border-top:1px dashed var(--line)}
+  .xp:first-of-type{border-top:none}
+  @media(max-width:680px){.xp{grid-template-columns:1fr;gap:8px}}
+  .xp .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);padding-top:5px}
+  .xp h3{font-family:var(--serif);font-size:22px;font-weight:600}
+  .xp .org{color:var(--amber);font-size:14px;font-weight:600;margin:2px 0 12px}
+  .xp ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .xp li{position:relative;padding-left:20px;color:var(--ink-soft);font-size:15px}
+  .xp li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--amber-soft)}
+
+  /* education */
+  .edu{display:flex;flex-wrap:wrap;gap:16px}
+  .edu .card{flex:1 1 280px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow)}
+  .edu h3{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25}
+  .edu .sub{color:var(--ink-soft);font-size:14px;margin-top:6px}
+  .edu .tagline{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+
+  /* project + demo */
+  .project{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+  .project-head{padding:28px 28px 22px;border-bottom:1px solid var(--line)}
+  .project-head h3{font-family:var(--serif);font-size:25px;font-weight:600}
+  .project-head .stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .project-head .stack span{font-family:var(--mono);font-size:11px;letter-spacing:.05em;padding:5px 10px;border-radius:6px;background:var(--paper-2);border:1px solid var(--line)}
+  .project-head p{color:var(--ink-soft);margin-top:14px;font-size:15px;max-width:660px}
+
+  .demo{padding:24px 28px 30px}
+  .demo-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+  .demo-bar .hint{font-size:13.5px;color:var(--ink-soft);max-width:440px}
+  .demo-actions{display:flex;gap:10px}
+  .run{font-family:var(--sans);font-weight:600;font-size:14px;border:none;cursor:pointer;padding:11px 20px;border-radius:10px;background:var(--amber);color:#fff;transition:transform .15s,filter .2s}
+  .run:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .reset{font-family:var(--sans);font-weight:600;font-size:14px;cursor:pointer;padding:11px 16px;border-radius:10px;background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .reset:hover{border-color:var(--ink-soft)}
+
+  .tables{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.tables{grid-template-columns:1fr}}
+  .tbl-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper)}
+  .tbl-card .cap{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;background:var(--paper-2);border-bottom:1px solid var(--line);color:var(--ink-soft)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
+  td{padding:6px 12px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  td.num input{width:62px;font-family:var(--mono);font-size:12.5px;text-align:right;border:1px solid transparent;background:transparent;color:var(--ink);padding:3px 6px;border-radius:6px}
+  td.num input:hover{border-color:var(--line)}
+  td.num input:focus{outline:none;border-color:var(--amber);background:#fff}
+  .sec{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+
+  /* results */
+  .results{margin-top:22px;border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
+  .results.show{opacity:1;transform:none}
+  .res-head{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:var(--ink);color:var(--paper)}
+  .stat{flex:1 1 120px;border-right:1px solid rgba(255,255,255,.12);padding:4px 14px}
+  .stat:last-child{border-right:none}
+  .stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+  .stat .v{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1.1}
+  .stat .v.ok{color:var(--amber-soft)}
+  .stat .v.flag{color:#F0B86E}
+  .res-body{padding:6px 0}
+  .res-title{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:12px 16px 6px}
+  .ex-row{display:grid;grid-template-columns:90px 1fr 76px 76px 70px 150px;gap:8px;align-items:center;padding:9px 16px;border-top:1px solid var(--line);font-size:13px;animation:rise .4s both}
+  @media(max-width:760px){.ex-row{grid-template-columns:1fr 1fr;row-gap:2px}}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .ex-row .acct{font-family:var(--mono);font-size:12px}
+  .ex-row .qty{font-family:var(--mono);text-align:right}
+  .pill{justify-self:start;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .p-qty{background:#FBEFD6;color:var(--amber);border:1px solid var(--amber-soft)}
+  .p-agent{background:#F4DED7;color:var(--red);border:1px solid #E0B3A6}
+  .p-client{background:#E2ECE4;color:var(--green);border:1px solid #B9D2C0}
+  .clean{padding:22px 16px;color:var(--green);font-size:14px;font-family:var(--mono)}
+  .col-h{display:grid;grid-template-columns:90px 1fr 76px 76px 70px 150px;gap:8px;padding:6px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  @media(max-width:760px){.col-h{display:none}}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:54px 0 70px;text-align:center}
+  footer h2{margin-bottom:14px}
+  footer .links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--ink-soft);opacity:.7;margin-top:40px}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Eman <b>Fatima</b></div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#work">Experience</a>
+      <a href="#project">Project</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Portfolio · Financial Operations</div>
+    <h1>Eman <span class="u">Fatima</span></h1>
+    <div class="role">Data, Reporting &amp; Operations Professional</div>
+    <p class="lede">I turn messy daily transaction data into clean, decision-ready reporting — using Excel automation, Power BI, and Python. Below, you can run one of my tools live in your browser.</p>
+    <div class="meta">
+      <span class="badge live"><span class="dot"></span> Open to relocation · On-site in Pittsburgh, PA</span>
+      <span class="badge">Columbia, MD</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#project">See a live demo ↓</a>
+      <a class="btn ghost" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="label" data-n="01">About</div>
+    <h2>Accuracy, automation, and a head for numbers.</h2>
+    <p class="section-intro">Analytically minded operations professional who builds reporting and automation tools that turn daily transaction data into clear insight. Background in sales reporting, reconciliation, and record-keeping, with a strong record of accuracy and meeting deadlines. Currently pursuing two associate degrees — Business Administration (May 2026) and Mathematics (Fall 2026) — while working full-time.</p>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <div class="label" data-n="02">Skills</div>
+    <h2>What I work with.</h2>
+    <div class="skillgrid" style="margin-top:30px">
+      <div>
+        <h3>Technical</h3>
+        <div class="tags">
+          <span class="tag key">Advanced Excel</span>
+          <span class="tag key">Power BI</span>
+          <span class="tag key">Python</span>
+          <span class="tag">Java</span>
+          <span class="tag">MS Office</span>
+          <span class="tag">Data integration</span>
+          <span class="tag">Dashboards &amp; automation</span>
+          <span class="tag">Sales &amp; financial reporting</span>
+        </div>
+      </div>
+      <div>
+        <h3>Operations</h3>
+        <div class="tags">
+          <span class="tag">Reconciliation</span>
+          <span class="tag">Record-keeping</span>
+          <span class="tag">Reporting accuracy</span>
+          <span class="tag">Data entry</span>
+          <span class="tag">Cash handling</span>
+          <span class="tag">Client inquiries</span>
+          <span class="tag">Scheduling</span>
+          <span class="tag">Inventory control</span>
+          <span class="tag">Vendor coordination</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="reveal">
+  <div class="wrap">
+    <div class="label" data-n="03">Experience</div>
+    <h2>Where I've done it.</h2>
+    <div style="margin-top:30px">
+      <div class="xp">
+        <div class="when">2023 — Present</div>
+        <div>
+          <h3>Data &amp; Reporting Analyst</h3>
+          <div class="org">Chicken Hut (Franchise Group)</div>
+          <ul>
+            <li>Integrated multiple merchant websites into a single unified platform, setting up the system from the ground up.</li>
+            <li>Built reporting dashboards consolidating daily sales into clear, decision-ready views for management.</li>
+            <li>Maintained daily sales records and weekly reports in Excel, then imported into Power BI using Python to automate reporting.</li>
+            <li>Applied Excel and coding skills to streamline data flows, reducing manual work and improving reporting accuracy.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="when">2017 — 2023</div>
+        <div>
+          <h3>Store Manager</h3>
+          <div class="org">Liberty Gas Station</div>
+          <ul>
+            <li>Built automated Excel tools to track and reconcile daily sales and transactions, applying coding skills to reduce manual work.</li>
+            <li>Reconciled daily cash register transactions and prepared sales and performance reports.</li>
+            <li>Maintained detailed records and documentation; managed inventory, vendors, and staff scheduling.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="when">2016 — 2017</div>
+        <div>
+          <h3>Front Desk Intern</h3>
+          <div class="org">Daughters of Jacob — Recreation Dept, Bronx, NY</div>
+          <ul>
+            <li>Maintained records and tracked check-ins and check-outs accurately within the system.</li>
+            <li>Prepared weekly satisfaction and activity reports for management review.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="reveal">
+  <div class="wrap">
+    <div class="label" data-n="04">Education</div>
+    <h2>Always building credentials.</h2>
+    <div class="edu" style="margin-top:30px">
+      <div class="card">
+        <div class="tagline">Expected May 2026</div>
+        <h3>Associate of Science, Business Administration</h3>
+        <div class="sub">Hagerstown Community College</div>
+      </div>
+      <div class="card">
+        <div class="tagline">Expected Fall 2026</div>
+        <h3>Associate of Science, Mathematics</h3>
+        <div class="sub">Hagerstown Community College</div>
+      </div>
+      <div class="card">
+        <div class="tagline">2017</div>
+        <h3>High School Diploma</h3>
+        <div class="sub">Bronx Guild High School</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="project" class="reveal">
+  <div class="wrap">
+    <div class="label" data-n="05">Featured Project</div>
+    <h2>Run my reconciliation tool, right here.</h2>
+    <p class="section-intro">In corporate actions, a client's holdings must match the custodian's exactly before a proxy ballot is issued or a payment is made — otherwise votes and dividends get allocated incorrectly. This tool compares both records and flags every break. Edit any quantity below, then hit <strong>Run reconciliation</strong>.</p>
+
+    <div class="project">
+      <div class="project-head">
+        <h3>Holdings Reconciliation Tool</h3>
+        <div class="stack"><span>Python</span><span>pandas</span><span>Reconciliation logic</span><span>Exception reporting</span></div>
+        <p>The browser version below mirrors the Python tool I wrote. It detects quantity mismatches and positions missing on either side, then produces an exception report — the same "work queue" a processor would investigate.</p>
+      </div>
+
+      <div class="demo">
+        <div class="demo-bar">
+          <div class="hint">Tip: change a quantity, delete it to zero, and re-run to see a new break appear.</div>
+          <div class="demo-actions">
+            <button class="reset" id="resetBtn">Reset data</button>
+            <button class="run" id="runBtn">Run reconciliation →</button>
+          </div>
+        </div>
+
+        <div class="tables">
+          <div class="tbl-card">
+            <div class="cap">Client holdings</div>
+            <table id="clientTbl"></table>
+          </div>
+          <div class="tbl-card">
+            <div class="cap">Agent / custodian holdings</div>
+            <table id="agentTbl"></table>
+          </div>
+        </div>
+
+        <div class="results" id="results">
+          <div class="res-head">
+            <div class="stat"><div class="k">Positions</div><div class="v" id="sPos">—</div></div>
+            <div class="stat"><div class="k">Matched</div><div class="v ok" id="sMatch">—</div></div>
+            <div class="stat"><div class="k">Breaks</div><div class="v flag" id="sBreak">—</div></div>
+          </div>
+          <div class="res-body">
+            <div class="res-title">Exceptions to investigate</div>
+            <div class="col-h"><div>Account</div><div>Security</div><div>Client</div><div>Agent</div><div>Diff</div><div>Status</div></div>
+            <div id="exList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:18px;font-size:14px;color:var(--ink-soft)">Full source, sample data, and documentation:
+      <a href="https://github.com/emanfatima0942-tech/holdings-reconciliation" id="repoLink" style="color:var(--amber);font-weight:600" target="_blank" rel="noopener">github.com/emanfatima0942-tech/holdings-reconciliation</a>
+    </p>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="label" data-n="06" style="justify-content:center">Contact</div>
+    <h2>Let's talk.</h2>
+    <p style="color:var(--ink-soft);max-width:520px;margin:0 auto">Open to financial operations and data/reporting roles. Available for on-site work in Pittsburgh, PA.</p>
+    <div class="links">
+      <a class="btn primary" href="mailto:Emanfatima0942@gmail.com">Emanfatima0942@gmail.com</a>
+      <a class="btn ghost" href="https://github.com/emanfatima0942-tech" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn ghost" href="tel:4437410016">443-741-0016</a>
+    </div>
+    <p class="note">All holdings data in the demo is fabricated for demonstration. No real client or account data is used.</p>
+  </div>
+</footer>
+
+<script>
+const SAMPLE = {
+  client: [
+    {account:"ACC1001",cusip:"037833100",name:"Apple Inc",qty:1500},
+    {account:"ACC1001",cusip:"594918104",name:"Microsoft Corp",qty:800},
+    {account:"ACC1002",cusip:"02079K305",name:"Alphabet Inc Class A",qty:300},
+    {account:"ACC1002",cusip:"88160R101",name:"Tesla Inc",qty:250},
+    {account:"ACC1003",cusip:"023135106",name:"Amazon.com Inc",qty:600},
+    {account:"ACC1003",cusip:"30303M102",name:"Meta Platforms Inc",qty:450},
+    {account:"ACC1004",cusip:"67066G104",name:"NVIDIA Corp",qty:1200},
+    {account:"ACC1005",cusip:"478160104",name:"Johnson & Johnson",qty:700},
+  ],
+  agent: [
+    {account:"ACC1001",cusip:"037833100",name:"Apple Inc",qty:1500},
+    {account:"ACC1001",cusip:"594918104",name:"Microsoft Corp",qty:750},
+    {account:"ACC1002",cusip:"02079K305",name:"Alphabet Inc Class A",qty:300},
+    {account:"ACC1002",cusip:"88160R101",name:"Tesla Inc",qty:250},
+    {account:"ACC1003",cusip:"023135106",name:"Amazon.com Inc",qty:600},
+    {account:"ACC1004",cusip:"67066G104",name:"NVIDIA Corp",qty:1200},
+    {account:"ACC1004",cusip:"92826C839",name:"Visa Inc",qty:400},
+    {account:"ACC1005",cusip:"478160104",name:"Johnson & Johnson",qty:700},
+    {account:"ACC1006",cusip:"46625H100",name:"JPMorgan Chase & Co",qty:900},
+  ]
+};
+let data = structuredClone(SAMPLE);
+
+function renderTable(id, rows){
+  const t = document.getElementById(id);
+  let html = "<tr><th>Account</th><th>Security</th><th style='text-align:right'>Qty</th></tr>";
+  rows.forEach((r,i)=>{
+    html += `<tr>
+      <td class="sec">${r.account}<br><span style="opacity:.6">${r.cusip}</span></td>
+      <td>${r.name}</td>
+      <td class="num"><input type="number" data-side="${id}" data-i="${i}" value="${r.qty}"></td>
+    </tr>`;
+  });
+  t.innerHTML = html;
+}
+
+function bindInputs(){
+  document.querySelectorAll('input[type=number]').forEach(inp=>{
+    inp.addEventListener('change',e=>{
+      const side = e.target.dataset.side==="clientTbl" ? "client":"agent";
+      const i = +e.target.dataset.i;
+      data[side][i].qty = parseInt(e.target.value||"0",10);
+    });
+  });
+}
+
+function reconcile(){
+  const map = new Map();
+  const keyOf = r => r.account+"|"+r.cusip;
+  data.client.forEach(r=>{ map.set(keyOf(r), {account:r.account,cusip:r.cusip,name:r.name,c:r.qty,a:null}); });
+  data.agent.forEach(r=>{
+    const k = keyOf(r);
+    if(map.has(k)){ map.get(k).a = r.qty; }
+    else { map.set(k, {account:r.account,cusip:r.cusip,name:r.name,c:null,a:r.qty}); }
+  });
+  const rows = [];
+  map.forEach(v=>{
+    const c = v.c===null?0:v.c, a = v.a===null?0:v.a;
+    let status;
+    if(v.a===null) status="MISSING AT AGENT";
+    else if(v.c===null) status="MISSING AT CLIENT";
+    else if(c!==a) status="QUANTITY BREAK";
+    else status="MATCHED";
+    rows.push({...v,c,a,diff:c-a,status});
+  });
+  rows.sort((x,y)=> (x.account+x.cusip).localeCompare(y.account+y.cusip));
+  return rows;
+}
+
+function run(){
+  const rows = reconcile();
+  const matched = rows.filter(r=>r.status==="MATCHED").length;
+  const ex = rows.filter(r=>r.status!=="MATCHED");
+  document.getElementById('sPos').textContent = rows.length;
+  document.getElementById('sMatch').textContent = matched;
+  document.getElementById('sBreak').textContent = ex.length;
+
+  const pillClass = s => s==="QUANTITY BREAK"?"p-qty":(s==="MISSING AT AGENT"?"p-agent":"p-client");
+  const list = document.getElementById('exList');
+  if(ex.length===0){
+    list.innerHTML = `<div class="clean">✓ No breaks found — holdings are fully reconciled.</div>`;
+  } else {
+    list.innerHTML = ex.map((r,i)=>`
+      <div class="ex-row" style="animation-delay:${i*60}ms">
+        <div class="acct">${r.account}</div>
+        <div>${r.name}<br><span class="sec" style="opacity:.6">${r.cusip}</span></div>
+        <div class="qty">${r.c}</div>
+        <div class="qty">${r.a}</div>
+        <div class="qty">${r.diff>0?'+':''}${r.diff}</div>
+        <div><span class="pill ${pillClass(r.status)}">${r.status}</span></div>
+      </div>`).join('');
+  }
+  const res = document.getElementById('results');
+  res.classList.add('show');
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function boot(){
+  renderTable('clientTbl', data.client);
+  renderTable('agentTbl', data.agent);
+  bindInputs();
+}
+document.getElementById('runBtn').addEventListener('click', run);
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  data = structuredClone(SAMPLE);
+  boot();
+  document.getElementById('results').classList.remove('show');
+});
+boot();
+
+// scroll reveal
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
